@@ -20,7 +20,9 @@ const jsLoaders = () => {
     },
   ];
 
-  return loaders;
+  const finalLoaders = isDev ? loaders.concat('eslint-loader') : loaders;
+
+  return finalLoaders;
 };
 
 module.exports = {
