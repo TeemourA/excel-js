@@ -7,7 +7,10 @@
   },
   "rules": {
     "object-curly-spacing": "off",
-    "arrow-parens": "off"
+    "arrow-parens": "off",
+    "require-jsdoc": "off",
+    "linebreak-style": "off",
+    "indent": "off"
   },
   "extends": ["eslint:recommended", "google"]
 }

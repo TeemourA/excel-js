@@ -7,8 +7,8 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const isProd = process.env.NODE_ENV === 'production';
 const isDev = !isProd;
 
-const getFilename = ext =>
-  isDev ? `bundle.${ext}` : `bundle.[contenthash].${ext}`;
+const getFilename = (name, ext) =>
+  isDev ? `${name}.${ext}` : `${name}.[contenthash].${ext}`;
 
 const jsLoaders = () => {
   const loaders = [
@@ -30,7 +30,7 @@ module.exports = {
   mode: 'development',
   entry: ['@babel/polyfill', './index.js'],
   output: {
-    filename: getFilename('js'),
+    filename: getFilename('bundle', 'js'),
     path: path.resolve(__dirname, 'dist'),
   },
   resolve: {
@@ -63,7 +63,7 @@ module.exports = {
       ],
     }),
     new MiniCssExtractPlugin({
-      filename: getFilename('css'),
+      filename: getFilename('bundle', 'css'),
     }),
   ],
   module: {
