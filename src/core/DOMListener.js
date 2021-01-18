@@ -1,6 +1,9 @@
 class DOMListener {
-  hi() {
-    console.log('hi [domlistener]');
+  constructor($root) {
+    if (!$root) {
+      throw new Error('No $root element provided to DOMListener');
+    }
+    this.$root = $root;
   }
 }
 
