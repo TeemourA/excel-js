@@ -1,27 +1,27 @@
+import $ from '@/core/dom';
 class Excel {
   constructor(selector, options) {
     this.$el = document.querySelector(selector);
     this.components = options.components || [];
   }
 
-  getComponents() {
-    const $root = document.createElement('div');
-    $root.classList.add('components-root');
+  getRoot() {
+    const $root = $.create('div', 'excel');
 
-    const components = this.components
-      .map(Component => {
-        const component = new Component();
-        return component.toHTML();
-      })
-      .join('');
+    this.components.forEach(Component => {
+      const $el = $.create('div', Component.className);
 
-      $root.insertAdjacentHTML('afterbegin', components);
+      const component = new Component($el);
+      $el.innerHTML = component.toHTML();
+
+      $root.append($el);
+    });
 
     return $root;
   }
 
   render() {
-    this.$el.append(this.getComponents());
+    this.$el.append(this.getRoot());
   }
 }
 
