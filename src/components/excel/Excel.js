@@ -20,8 +20,6 @@ class Excel {
       return component;
     });
 
-    console.log(this.components);
-
     return $root;
   }
 
