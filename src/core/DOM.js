@@ -19,6 +19,10 @@ class DOM {
     return this;
   }
 
+  on(eventType, callback) {
+    this.$el.addEventListener(eventType, callback);
+  }
+
   append(node) {
     const currentNode = node instanceof DOM ? node.$el : node;
 
