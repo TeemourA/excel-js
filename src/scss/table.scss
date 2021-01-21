@@ -2,7 +2,7 @@
 @import 'variables';
 
 .excel_table {
-  position: fixed;
+  position: relative;
   top: $header-height + $toolbar-height + $formula-height;
   left: 0;
   right: 0;

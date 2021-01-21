@@ -17,12 +17,17 @@ class DOMListener {
           `${method} is not implemented in ${this.name} Component`
         );
       }
-      console.log(this, method, this[method]);
-      this.$root.on(listener, this[method].bind(this));
+      this[method] = this[method].bind(this);
+      this.$root.on(listener, this[method]);
     });
   }
 
-  removeDOMListeners() {}
+  removeDOMListeners() {
+    this.listeners.forEach(listener => {
+      const method = getMethodName(listener, 'on', capitalizeFirstLetter);
+      this.$root.off(listener, this[method]);
+    });
+  }
 }
 
 const getMethodName = (listenerName, prefix, modify) =>
