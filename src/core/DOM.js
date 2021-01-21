@@ -20,7 +20,12 @@ class DOM {
   }
 
   on(eventType, callback) {
+    console.log(this.$el);
     this.$el.addEventListener(eventType, callback);
+  }
+
+  off(eventType, callback) {
+    this.$el.removeEventListener(eventType, callback);
   }
 
   append(node) {

@@ -13,6 +13,9 @@ class Excel {
       const $el = $.create('div', Component.className);
 
       const component = new Component($el);
+      if (component.name) {
+        window['debug' + component.name] = component;
+      }
       $el.html(component.toHTML());
 
       $root.append($el);
