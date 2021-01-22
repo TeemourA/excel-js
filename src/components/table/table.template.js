@@ -8,13 +8,24 @@ const createCell = () => {
 };
 
 const createColumn = columnLetterIndex => {
-  return `<div class="column">${columnLetterIndex}</div>`;
+  return `
+    <div class="column" data-type="resizable">
+      ${columnLetterIndex}
+      <div class="column-resize" data-resize="column"></div>
+    </div>
+  `;
 };
 
 const createRow = (index, rowCells) => {
+  const rowIndex = index !== null ? index : '';
+  const resizeElement =
+    index > 0 ? '<div class="row-resize" data-resize="row"></div>' : '';
   return `
     <div class="row">
-      <div class="row-info">${index ? index : ''}</div>
+      <div class="row-info">
+        ${rowIndex}
+        ${resizeElement}
+      </div>
       <div class="row-data">${rowCells}</div>
     </div>
   `;
