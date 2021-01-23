@@ -31,6 +31,10 @@ class Table extends ExcelComponent {
         const resizeDelta = e.pageX - parentCoords.right;
         const calculatedWidth = `${parentCoords.width + resizeDelta}px`;
         $parent.$el.style.width = calculatedWidth;
+
+        document
+          .querySelectorAll(`[data-column="${$parent.dataset.column}"]`)
+          .forEach(el => (el.style.width = calculatedWidth));
       };
 
       document.onmouseup = () => {
