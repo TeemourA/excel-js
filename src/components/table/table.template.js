@@ -23,7 +23,7 @@ const createRow = (index, rowCells) => {
   const resizeElement =
     index > 0 ? '<div class="row-resize" data-resize="row"></div>' : '';
   return `
-    <div class="row">
+    <div class="row" data-type="resizable">
       <div class="row-info">
         ${rowIndex}
         ${resizeElement}

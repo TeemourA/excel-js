@@ -26,15 +26,23 @@ class Table extends ExcelComponent {
       const $resizer = $(event.target);
       const $parent = $resizer.closest('[data-type="resizable"]');
       const parentCoords = $parent.getCoords();
+      const type = $resizer.dataset.resize;
+      const columnCells = this.$root.findAll(
+        `[data-column="${$parent.dataset.column}"]`
+      );
 
       document.onmousemove = e => {
-        const resizeDelta = e.pageX - parentCoords.right;
-        const calculatedWidth = `${parentCoords.width + resizeDelta}px`;
-        $parent.$el.style.width = calculatedWidth;
+        if (type === 'column') {
+          const resizeDelta = e.pageX - parentCoords.right;
+          const calculatedWidth = `${parentCoords.width + resizeDelta}px`;
+          $parent.injectStyles({ width: calculatedWidth });
 
-        document
-          .querySelectorAll(`[data-column="${$parent.dataset.column}"]`)
-          .forEach(el => (el.style.width = calculatedWidth));
+          columnCells.forEach(cell => (cell.style.width = calculatedWidth));
+        } else {
+          const resizeDelta = e.pageY - parentCoords.bottom;
+          const calculatedHeight = `${parentCoords.height + resizeDelta}px`;
+          $parent.injectStyles({ height: calculatedHeight });
+        }
       };
 
       document.onmouseup = () => {

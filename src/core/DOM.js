@@ -50,6 +50,15 @@ class DOM {
   getCoords() {
     return this.$el.getBoundingClientRect();
   }
+
+  findAll(selector) {
+    return this.$el.querySelectorAll(selector);
+  }
+
+  injectStyles(styles = {}) {
+    const stylesKeyValue = Object.entries(styles);
+    stylesKeyValue.forEach(([key, value]) => (this.$el.style[key] = value));
+  }
 }
 
 const $ = selector => {
