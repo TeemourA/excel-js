@@ -31,6 +31,8 @@ class Table extends ExcelComponent {
         `[data-column="${$parent.dataset.column}"]`
       );
 
+      $resizer.injectStyles({ opacity: 1 });
+
       document.onmousemove = e => {
         if (type === 'column') {
           const resizeDelta = e.pageX - parentCoords.right;
@@ -46,6 +48,7 @@ class Table extends ExcelComponent {
       };
 
       document.onmouseup = () => {
+      $resizer.injectStyles({ opacity: 0 });
         document.onmousemove = null;
       };
     }
