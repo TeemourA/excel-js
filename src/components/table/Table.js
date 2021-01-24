@@ -1,6 +1,7 @@
 import ExcelComponent from '@/core/ExcelComponent';
 import createTable from './table.template';
-import $ from '@core/DOM';
+import resizeHandler from './table.resize';
+import shouldResize from './table.funtions';
 
 class Table extends ExcelComponent {
   static className = 'excel_table';
@@ -22,32 +23,8 @@ class Table extends ExcelComponent {
   //   }
 
   onMousedown(event) {
-    if (event.target.dataset.resize) {
-      const $resizer = $(event.target);
-      const $parent = $resizer.closest('[data-type="resizable"]');
-      const parentCoords = $parent.getCoords();
-      const type = $resizer.dataset.resize;
-      const columnCells = this.$root.findAll(
-        `[data-column="${$parent.dataset.column}"]`
-      );
-
-      document.onmousemove = e => {
-        if (type === 'column') {
-          const resizeDelta = e.pageX - parentCoords.right;
-          const calculatedWidth = `${parentCoords.width + resizeDelta}px`;
-          $parent.injectStyles({ width: calculatedWidth });
-
-          columnCells.forEach(cell => (cell.style.width = calculatedWidth));
-        } else {
-          const resizeDelta = e.pageY - parentCoords.bottom;
-          const calculatedHeight = `${parentCoords.height + resizeDelta}px`;
-          $parent.injectStyles({ height: calculatedHeight });
-        }
-      };
-
-      document.onmouseup = () => {
-        document.onmousemove = null;
-      };
+    if (shouldResize(event)) {
+      resizeHandler(this.$root, event);
     }
   }
 
