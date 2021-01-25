@@ -51,6 +51,10 @@ class DOM {
     return this.$el.getBoundingClientRect();
   }
 
+  find(selector) {
+    return $(this.$el.querySelector(selector));
+  }
+
   findAll(selector) {
     return this.$el.querySelectorAll(selector);
   }
@@ -58,6 +62,25 @@ class DOM {
   injectStyles(styles = {}) {
     const stylesKeyValue = Object.entries(styles);
     stylesKeyValue.forEach(([key, value]) => (this.$el.style[key] = value));
+  }
+
+  cellId(parse) {
+    if (parse) {
+      const [column, row] = this.cellId().split(':');
+      return {
+        column: Number(column),
+        row: Number(row),
+      };
+    }
+    return this.dataset.cell;
+  }
+
+  addClassname(classname) {
+    this.$el.classList.add(classname);
+  }
+
+  removeClassname(classname) {
+    this.$el.classList.remove(classname);
   }
 }
 

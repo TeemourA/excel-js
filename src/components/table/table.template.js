@@ -3,15 +3,24 @@ const charCodes = {
   Z: 90,
 };
 
-const createCell = columnIndex => {
+const createCell = (columnIndex, rowIndex) => {
   return `
-    <div class="cell" contenteditable data-column="${columnIndex}"></div>
+    <div
+      class="cell"
+      contenteditable
+      data-column="${columnIndex}"
+      data-cell="${columnIndex}:${rowIndex}"
+    ></div>
   `;
 };
 
 const createColumn = (columnLetterIndex, index) => {
   return `
-    <div class="column" data-type="resizable" data-column="${index}">
+    <div
+      class="column"
+      data-type="resizable"
+      data-column="${index}"
+    >
       ${columnLetterIndex}
       <div class="column-resize" data-resize="column"></div>
     </div>
@@ -46,13 +55,13 @@ const createTable = (rowsCount = 25) => {
 
   rows.push(createRow(null, firstRowColumns));
 
-  for (let i = 0; i < rowsCount; i += 1) {
+  for (let rowIndex = 0; rowIndex < rowsCount; rowIndex += 1) {
     const rowCells = new Array(colsCount)
       .fill('')
-      .map((_, index) => createCell(index))
+      .map((_, columnIndex) => createCell(columnIndex, rowIndex))
       .join('');
 
-    rows.push(createRow(i + 1, rowCells));
+    rows.push(createRow(rowIndex + 1, rowCells));
   }
 
   return rows.join('');
