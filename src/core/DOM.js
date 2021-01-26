@@ -64,12 +64,12 @@ class DOM {
     stylesKeyValue.forEach(([key, value]) => (this.$el.style[key] = value));
   }
 
-  cellId(parse) {
+  cellID(parse) {
     if (parse) {
-      const [column, row] = this.cellId().split(':');
+      const [column, row] = this.cellID().split(':');
       return {
-        column: Number(column),
-        row: Number(row),
+        columnID: Number(column),
+        rowID: Number(row),
       };
     }
     return this.dataset.cell;

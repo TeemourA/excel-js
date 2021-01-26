@@ -10,7 +10,7 @@ class Table extends ExcelComponent {
 
   constructor($root) {
     super($root, {
-      listeners: ['mousedown'],
+      listeners: ['mousedown', 'keydown'],
     });
   }
 
@@ -47,6 +47,54 @@ class Table extends ExcelComponent {
       }
     }
   }
+
+  onKeydown(event) {
+    const keys = [
+      'Enter',
+      'Tab',
+      'ArrowLeft',
+      'ArrowRight',
+      'ArrowDown',
+      'ArrowUp',
+    ];
+
+    const { key } = event;
+
+    if (keys.includes(key)) {
+      event.preventDefault();
+
+      const { columnID, rowID } = this.selection.currentCell.cellID(true);
+      const $nextCell = this.$root.find(
+        getNextCellSelector(key, columnID, rowID)
+      );
+      this.selection.select($nextCell);
+      console.log(key, columnID, rowID);
+    }
+  }
 }
+
+const getNextCellSelector = (key, _columnID, _rowID) => {
+  let [columnID, rowID] = [_columnID, _rowID];
+  switch (key) {
+    case 'Enter':
+    case 'ArrowDown':
+      rowID += 1;
+      break;
+    case 'Tab':
+    case 'ArrowRight':
+      columnID += 1;
+      break;
+    case 'ArrowLeft':
+      columnID -= 1;
+      break;
+    case 'ArrowUp':
+      rowID -= 1;
+      break;
+    default:
+      break;
+  }
+
+  return `[data-cell="${columnID}:${rowID}"]`;
+};
 
 export default Table;

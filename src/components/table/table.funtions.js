@@ -15,11 +15,11 @@ const makeRange = (start, end) => {
 };
 
 const getMatrix = ($targetCell, $currentCell) => {
-  const targetCell = $targetCell.cellId(true);
-  const currentCell = $currentCell.cellId(true);
+  const targetCell = $targetCell.cellID(true);
+  const currentCell = $currentCell.cellID(true);
 
-  const columnsRange = makeRange(currentCell.column, targetCell.column);
-  const rowsRange = makeRange(currentCell.row, targetCell.row);
+  const columnsRange = makeRange(currentCell.columnID, targetCell.columnID);
+  const rowsRange = makeRange(currentCell.rowID, targetCell.rowID);
 
   const matrix = columnsRange.reduce((cells, column) => {
     rowsRange.forEach(row => cells.push(`${column}:${row}`));
