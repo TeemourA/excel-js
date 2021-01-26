@@ -75,6 +75,11 @@ class DOM {
     return this.dataset.cell;
   }
 
+  focus() {
+    this.$el.focus();
+    return this;
+  }
+
   addClassname(classname) {
     this.$el.classList.add(classname);
   }

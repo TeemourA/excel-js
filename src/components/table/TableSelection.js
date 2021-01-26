@@ -12,7 +12,7 @@ class TableSelection {
     this.cellsGroup.push($el);
     this.currentCell = $el;
 
-    $el.addClassname(TableSelection.className);
+    $el.focus().addClassname(TableSelection.className);
   }
 
   selectGroup($cells = []) {

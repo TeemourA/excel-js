@@ -2,8 +2,13 @@ import ExcelComponent from '@/core/ExcelComponent';
 import $ from '@core/DOM';
 import createTable from './table.template';
 import resizeHandler from './table.resize';
-import { shouldResize, isCell, getMatrix } from './table.funtions';
 import TableSelection from './TableSelection';
+import {
+  shouldResize,
+  isCell,
+  getMatrix,
+  getNextCellSelector,
+} from './table.funtions';
 
 class Table extends ExcelComponent {
   static className = 'excel_table';
@@ -60,7 +65,7 @@ class Table extends ExcelComponent {
 
     const { key } = event;
 
-    if (keys.includes(key)) {
+    if (keys.includes(key) && !event.shiftKey) {
       event.preventDefault();
 
       const { columnID, rowID } = this.selection.currentCell.cellID(true);
@@ -72,29 +77,5 @@ class Table extends ExcelComponent {
     }
   }
 }
-
-const getNextCellSelector = (key, _columnID, _rowID) => {
-  let [columnID, rowID] = [_columnID, _rowID];
-  switch (key) {
-    case 'Enter':
-    case 'ArrowDown':
-      rowID += 1;
-      break;
-    case 'Tab':
-    case 'ArrowRight':
-      columnID += 1;
-      break;
-    case 'ArrowLeft':
-      columnID -= 1;
-      break;
-    case 'ArrowUp':
-      rowID -= 1;
-      break;
-    default:
-      break;
-  }
-
-  return `[data-cell="${columnID}:${rowID}"]`;
-};
 
 export default Table;
