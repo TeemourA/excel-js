@@ -86,7 +86,7 @@ class Table extends ExcelComponent {
         getNextCellSelector(key, columnID, rowID)
       );
 
-    this.selectCell('Table_select', $nextCell);
+      this.selectCell('Table_select', $nextCell);
     }
   }
 
