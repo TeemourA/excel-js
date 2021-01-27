@@ -13,13 +13,13 @@ import {
 class Table extends ExcelComponent {
   static className = 'excel_table';
 
-  constructor($root) {
+  constructor($root, options) {
     super($root, {
-      listeners: ['mousedown', 'keydown'],
+      name: 'Table',
+      listeners: ['mousedown', 'keydown', 'input'],
+      ...options,
     });
   }
-
-  name = 'Table';
 
   toHTML() {
     return createTable(30);
@@ -29,10 +29,23 @@ class Table extends ExcelComponent {
     this.selection = new TableSelection();
   }
 
+  selectCell(eventName, $cell) {
+    this.selection.select($cell);
+    this.$emit(eventName, $cell);
+  }
+
   init() {
     super.init();
     const $firstCell = this.$root.find('[data-cell="0:0"]');
-    this.selection.select($firstCell);
+    this.selectCell('Table_select', $firstCell);
+
+    this.$subscribe('Formula_onInput', text =>
+      this.selection.currentCell.text(text)
+    );
+
+    this.$subscribe('Formula_focusToCell', () =>
+      this.selection.currentCell.focus()
+    );
   }
 
   onMousedown(event) {
@@ -72,9 +85,13 @@ class Table extends ExcelComponent {
       const $nextCell = this.$root.find(
         getNextCellSelector(key, columnID, rowID)
       );
-      this.selection.select($nextCell);
-      console.log(key, columnID, rowID);
+
+    this.selectCell('Table_select', $nextCell);
     }
+  }
+
+  onInput(event) {
+    this.$emit('Table_input', $(event.target));
   }
 }
 

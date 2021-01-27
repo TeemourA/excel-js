@@ -1,24 +1,24 @@
 class Emitter {
   constructor() {
-    this.listeners = [];
+    this.subscribers = [];
   }
 
   subscribe(eventName, fn) {
-    this.listeners[eventName] = this.listeners[eventName] || [];
-    this.listeners[eventName].push(fn);
+    this.subscribers[eventName] = this.subscribers[eventName] || [];
+    this.subscribers[eventName].push(fn);
 
     return () => {
-      this.listeners[eventName] = this.listeners[eventName].filter(
-        listener => listener !== fn
+      this.subscribers[eventName] = this.subscribers[eventName].filter(
+        subscriber => subscriber !== fn
       );
     };
   }
 
   emit(eventName, ...args) {
-    if (!Array.isArray(this.listeners[eventName])) return false;
+    if (!Array.isArray(this.subscribers[eventName])) return false;
 
-    this.listeners[eventName].forEach(listener => {
-      listener(...args);
+    this.subscribers[eventName].forEach(subscriber => {
+      subscriber(...args);
     });
 
     return true;
