@@ -14,13 +14,25 @@ class DOM {
     return this.$el.outerHTML.trim();
   }
 
+  text(text) {
+    if (typeof text === 'string') {
+      this.$el.textContent = text;
+      return this;
+    }
+
+    if (this.$el.tagName.toLowerCase() === 'input') {
+      return this.$el.value.trim();
+    }
+
+    return this.$el.textContent.trim();
+  }
+
   clear() {
     this.html('');
     return this;
   }
 
   on(eventType, callback) {
-    console.log(this.$el);
     this.$el.addEventListener(eventType, callback);
   }
 
@@ -64,15 +76,20 @@ class DOM {
     stylesKeyValue.forEach(([key, value]) => (this.$el.style[key] = value));
   }
 
-  cellId(parse) {
+  cellID(parse) {
     if (parse) {
-      const [column, row] = this.cellId().split(':');
+      const [column, row] = this.cellID().split(':');
       return {
-        column: Number(column),
-        row: Number(row),
+        columnID: Number(column),
+        rowID: Number(row),
       };
     }
     return this.dataset.cell;
+  }
+
+  focus() {
+    this.$el.focus();
+    return this;
   }
 
   addClassname(classname) {

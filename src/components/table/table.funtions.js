@@ -15,11 +15,11 @@ const makeRange = (start, end) => {
 };
 
 const getMatrix = ($targetCell, $currentCell) => {
-  const targetCell = $targetCell.cellId(true);
-  const currentCell = $currentCell.cellId(true);
+  const targetCell = $targetCell.cellID(true);
+  const currentCell = $currentCell.cellID(true);
 
-  const columnsRange = makeRange(currentCell.column, targetCell.column);
-  const rowsRange = makeRange(currentCell.row, targetCell.row);
+  const columnsRange = makeRange(currentCell.columnID, targetCell.columnID);
+  const rowsRange = makeRange(currentCell.rowID, targetCell.rowID);
 
   const matrix = columnsRange.reduce((cells, column) => {
     rowsRange.forEach(row => cells.push(`${column}:${row}`));
@@ -29,4 +29,29 @@ const getMatrix = ($targetCell, $currentCell) => {
   return matrix;
 };
 
-export { shouldResize, isCell, makeRange, getMatrix };
+const getNextCellSelector = (key, _columnID, _rowID) => {
+  let [columnID, rowID] = [_columnID, _rowID];
+  const minValue = 0;
+  switch (key) {
+    case 'Enter':
+    case 'ArrowDown':
+      rowID += 1;
+      break;
+    case 'Tab':
+    case 'ArrowRight':
+      columnID += 1;
+      break;
+    case 'ArrowLeft':
+      columnID = columnID - 1 < minValue ? minValue : columnID - 1;
+      break;
+    case 'ArrowUp':
+      rowID = rowID - 1 < minValue ? minValue : rowID - 1;
+      break;
+    default:
+      break;
+  }
+
+  return `[data-cell="${columnID}:${rowID}"]`;
+};
+
+export { shouldResize, isCell, makeRange, getMatrix, getNextCellSelector };
