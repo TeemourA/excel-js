@@ -39,13 +39,10 @@ class Table extends ExcelComponent {
     const $firstCell = this.$root.find('[data-cell="0:0"]');
     this.selectCell('Table_select', $firstCell);
 
-    this.$subscribe('Formula_onInput', text =>
-      this.selection.currentCell.text(text)
-    );
+    this.$on('Formula_onInput', text => this.selection.currentCell.text(text));
 
-    this.$subscribe('Formula_focusToCell', () =>
-      this.selection.currentCell.focus()
-    );
+    this.$on('Formula_focusToCell', () => this.selection.currentCell.focus());
+    this.$subscribe(state => console.log('TableState', state));
   }
 
   onMousedown(event) {
@@ -61,7 +58,7 @@ class Table extends ExcelComponent {
 
         this.selection.selectGroup($cellsGroup);
       } else {
-        this.selection.select($target);
+        this.selectCell('Table_select', $target);
       }
     }
   }
