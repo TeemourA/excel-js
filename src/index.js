@@ -4,12 +4,15 @@ import Formula from '@/components/formula/Formula';
 import Table from '@/components/table/Table';
 import Toolbar from '@/components/toolbar/Toolbar';
 import createStore from '@core/createStore';
-import reducer from './redux/reducer';
+import reducer from '@/redux/reducer';
+import { getFromLocalStorage, saveInLocalStorage } from '@core/utils';
 import './styles/index.scss';
 
-const store = createStore(reducer, {
-  table: {},
-  formula: {},
+const store = createStore(reducer, getFromLocalStorage('excel-state'));
+
+store.subscribe(state => {
+  console.log(state);
+  saveInLocalStorage('excel-state', state);
 });
 
 const excel = new Excel('#app', {
