@@ -9,6 +9,7 @@ import {
   getMatrix,
   getNextCellSelector,
 } from './table.funtions';
+import { tableResize } from '@/redux/actions';
 
 class Table extends ExcelComponent {
   static className = 'excel_table';
@@ -22,7 +23,7 @@ class Table extends ExcelComponent {
   }
 
   toHTML() {
-    return createTable(30);
+    return createTable(30, this.store.getState());
   }
 
   prepare() {
@@ -42,12 +43,21 @@ class Table extends ExcelComponent {
     this.$on('Formula_onInput', text => this.selection.currentCell.text(text));
 
     this.$on('Formula_focusToCell', () => this.selection.currentCell.focus());
-    this.$subscribe(state => console.log('TableState', state));
+    // this.$subscribe(state => console.log('TableState', state));
+  }
+
+  async resizeTable(event) {
+    try {
+      const data = await resizeHandler(this.$root, event);
+      this.$dispatch(tableResize(data));
+    } catch (e) {
+      console.error('[resizeTable]', e.message);
+    }
   }
 
   onMousedown(event) {
     if (shouldResize(event)) {
-      resizeHandler(this.$root, event);
+      this.resizeTable(event);
     } else if (isCell(event)) {
       const $target = $(event.target);
       if (event.shiftKey) {

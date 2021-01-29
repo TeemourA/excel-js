@@ -1,4 +1,4 @@
-import capitalizeFirstLetter from './utils';
+import { capitalize } from './utils';
 
 class DOMListener {
   constructor($root, listeners = []) {
@@ -11,7 +11,7 @@ class DOMListener {
 
   initDOMListeners() {
     this.listeners.forEach(listener => {
-      const method = getMethodName(listener, 'on', capitalizeFirstLetter);
+      const method = getMethodName(listener, 'on', capitalize);
       if (!this[method]) {
         throw new Error(
           `${method} is not implemented in ${this.name} Component`
@@ -24,7 +24,7 @@ class DOMListener {
 
   removeDOMListeners() {
     this.listeners.forEach(listener => {
-      const method = getMethodName(listener, 'on', capitalizeFirstLetter);
+      const method = getMethodName(listener, 'on', capitalize);
       this.$root.off(listener, this[method]);
     });
   }
