@@ -6,6 +6,15 @@ const charCodes = {
 };
 
 const DEFAULT_WIDTH = 120;
+const DEFAULT_HEIGHT = 24;
+
+const getWidth = (state, index) => {
+  return state[index] || toPixels(DEFAULT_WIDTH);
+};
+
+const getHeight = (state, index) => {
+  return state[index] || toPixels(DEFAULT_HEIGHT);
+};
 
 const createCell = (state, rowIndex) => (_, columnIndex) =>
   `
@@ -32,26 +41,25 @@ const createColumn = ({ char, index, width }) => {
   `;
 };
 
-const createRow = (index, rowCells) => {
+const createRow = (index, rowCells, state = {}) => {
   const rowIndex = index !== null ? index : '';
+  const height = getHeight(state, index - 1);
   const resizeElement =
     index > 0 ? '<div class="row-resize" data-resize="row"></div>' : '';
   return `
-    <div class="row" data-type="resizable">
-      <div class="row-info">
-        ${rowIndex}
-        ${resizeElement}
-      </div>
+    <div
+      class="row"
+      data-type="resizable"
+      data-row="${rowIndex - 1}"
+      style="height: ${height}"
+    >
+      <div class="row-info">${rowIndex} ${resizeElement}</div>
       <div class="row-data">${rowCells}</div>
     </div>
   `;
 };
 
 const toChar = (_, index) => String.fromCharCode(charCodes.A + index);
-
-const getWidth = (state, index) => {
-  return state.columns[index] || toPixels(DEFAULT_WIDTH);
-};
 
 const withWidthFrom = state => (char, index) => ({
   char,
@@ -67,7 +75,7 @@ const createTable = (rowsCount = 25, state) => {
   const firstRowColumns = new Array(colsCount)
     .fill('')
     .map(toChar)
-    .map(withWidthFrom(state))
+    .map(withWidthFrom(state.columns))
     .map((char, index) => createColumn(char, index))
     .join('');
 
@@ -76,10 +84,10 @@ const createTable = (rowsCount = 25, state) => {
   for (let rowIndex = 0; rowIndex < rowsCount; rowIndex += 1) {
     const rowCells = new Array(colsCount)
       .fill('')
-      .map(createCell(state, rowIndex))
+      .map(createCell(state.columns, rowIndex))
       .join('');
 
-    rows.push(createRow(rowIndex + 1, rowCells));
+    rows.push(createRow(rowIndex + 1, rowCells, state.rows));
   }
 
   return rows.join('');

@@ -1,12 +1,17 @@
 import actionTypes from './actionTypes';
 
+const resizeTable = (state, action) => {
+  const field = action.payload.type === 'column' ? 'columns' : 'rows';
+  const updatedSize = state[field] || {};
+  updatedSize[action.payload.id] = action.payload.value;
+
+  return { ...state, [field]: updatedSize };
+};
+
 const reducer = (state, action) => {
-  let columnsState;
   switch (action.type) {
     case actionTypes.TABLE_RESIZE:
-      columnsState = state.columns || {};
-      columnsState[action.payload.id] = action.payload.value;
-      return { ...state, columns: columnsState };
+      return resizeTable(state, action);
     default:
       return state;
   }

@@ -44,8 +44,10 @@ const resizeHandler = ($root, event) => {
         $parent.injectStyles({ height: updatedSize });
       }
 
+      console.log(type);
       resolve({
-        id: type === 'column' ? $parent.dataset.column : null,
+        type,
+        id: $parent.dataset[type],
         value: updatedSize,
       });
 

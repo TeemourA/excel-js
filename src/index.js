@@ -5,10 +5,11 @@ import Table from '@/components/table/Table';
 import Toolbar from '@/components/toolbar/Toolbar';
 import createStore from '@core/createStore';
 import reducer from '@/redux/reducer';
-import { getFromLocalStorage, saveInLocalStorage } from '@core/utils';
+import initialState from '@/redux/initialState';
+import { saveInLocalStorage } from '@core/utils';
 import './styles/index.scss';
 
-const store = createStore(reducer, getFromLocalStorage('excel-state'));
+const store = createStore(reducer, initialState);
 
 store.subscribe(state => {
   console.log(state);
