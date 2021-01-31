@@ -5,4 +5,9 @@ const tableResize = data => ({
   payload: data,
 });
 
-export { tableResize };
+const changeText = data => ({
+  type: actionTypes.CHANGE_TEXT,
+  payload: data,
+});
+
+export { tableResize, changeText };

@@ -9,7 +9,7 @@ import {
   getMatrix,
   getNextCellSelector,
 } from './table.funtions';
-import { tableResize } from '@/redux/actions';
+import { tableResize, changeText } from '@/redux/actions';
 
 class Table extends ExcelComponent {
   static className = 'excel_table';
@@ -40,7 +40,12 @@ class Table extends ExcelComponent {
     const $firstCell = this.$root.find('[data-cell="0:0"]');
     this.selectCell('Table_select', $firstCell);
 
-    this.$on('Formula_onInput', text => this.selection.currentCell.text(text));
+    this.$on('Formula_onInput', text => {
+      this.selection.currentCell.text(text);
+
+      const id = this.selection.currentCell.cellID();
+      this.updateCellsState(id, text);
+    });
 
     this.$on('Formula_focusToCell', () => this.selection.currentCell.focus());
     // this.$subscribe(state => console.log('TableState', state));
@@ -97,8 +102,20 @@ class Table extends ExcelComponent {
     }
   }
 
+  updateCellsState(id, text) {
+    this.$dispatch(
+      changeText({
+        id,
+        text,
+      })
+    );
+  }
+
   onInput(event) {
-    this.$emit('Table_input', $(event.target));
+    const text = $(event.target).text();
+    const id = this.selection.currentCell.cellID();
+    this.updateCellsState(id, text);
+    // this.$emit('Table_input', $(event.target));
   }
 }
 
