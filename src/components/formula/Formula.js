@@ -29,9 +29,12 @@ class Formula extends ExcelComponent {
     this.$formula = this.$root.find('[data-type="formula"]');
 
     this.$on('Table_select', $cell => this.$formula.text($cell.text()));
-    this.$on('Table_input', $cell => this.$formula.text($cell.text()));
+    // this.$on('Table_input', $cell => this.$formula.text($cell.text()));
 
-    // this.$subscribe(state => console.log('FormulaState', state));
+    this.$subscribe(state => {
+      console.log('Formula upd', state.currentText);
+      this.$formula.text(state.currentText);
+    });
   }
 
   onInput(event) {

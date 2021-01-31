@@ -16,16 +16,22 @@ const getHeight = (state, index) => {
   return state[index] || toPixels(DEFAULT_HEIGHT);
 };
 
-const createCell = (state, rowIndex) => (_, columnIndex) =>
-  `
+const createCell = (state, rowIndex) => (_, columnIndex) => {
+  const width = getWidth(state.columns, columnIndex);
+  const id = `${columnIndex}:${rowIndex}`;
+  const text = state.cells[id] || '';
+  return `
     <div
       class="cell"
       contenteditable
       data-column="${columnIndex}"
       data-cell="${columnIndex}:${rowIndex}"
-      style="width: ${getWidth(state, columnIndex)}"
-    ></div>
+      style="width: ${width}"
+    >
+      ${text}
+    </div>
   `;
+};
 
 const createColumn = ({ char, index, width }) => {
   return `
@@ -84,7 +90,7 @@ const createTable = (rowsCount = 25, state) => {
   for (let rowIndex = 0; rowIndex < rowsCount; rowIndex += 1) {
     const rowCells = new Array(colsCount)
       .fill('')
-      .map(createCell(state.columns, rowIndex))
+      .map(createCell(state, rowIndex))
       .join('');
 
     rows.push(createRow(rowIndex + 1, rowCells, state.rows));

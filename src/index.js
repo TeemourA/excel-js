@@ -12,7 +12,6 @@ import './styles/index.scss';
 const store = createStore(reducer, initialState);
 
 store.subscribe(state => {
-  console.log(state);
   saveInLocalStorage('excel-state', state);
 });
 

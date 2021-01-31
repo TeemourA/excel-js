@@ -8,10 +8,23 @@ const resizeTable = (state, action) => {
   return { ...state, [field]: updatedSize };
 };
 
+const changeText = (state, action) => {
+  console.log('Action', action);
+  const updatedCells = state.cells || {};
+  updatedCells[action.payload.id] = action.payload.text;
+  return {
+    ...state,
+    cells: updatedCells,
+    currentText: action.payload.text,
+  };
+};
+
 const reducer = (state, action) => {
   switch (action.type) {
     case actionTypes.TABLE_RESIZE:
       return resizeTable(state, action);
+    case actionTypes.CHANGE_TEXT:
+      return changeText(state, action);
     default:
       return state;
   }
