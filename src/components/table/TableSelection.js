@@ -30,6 +30,14 @@ class TableSelection {
     );
     this.cellsGroup = [];
   }
+
+  applyStyle(styles) {
+    this.cellsGroup.forEach($cell => $cell.injectStyles(styles));
+  }
+
+  getIDs() {
+    return this.cellsGroup.map($cell => $cell.cellID());
+  }
 }
 
 export default TableSelection;

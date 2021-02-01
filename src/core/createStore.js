@@ -17,7 +17,7 @@ const createStore = (reducer, initialState = {}) => {
       subscribers.forEach(subscriber => subscriber(state));
     },
     getState() {
-      return state;
+      return JSON.parse(JSON.stringify(state));
     },
   };
 };

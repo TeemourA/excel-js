@@ -3,13 +3,19 @@ import $ from '@core/DOM';
 import createTable from './table.template';
 import resizeHandler from './table.resize';
 import TableSelection from './TableSelection';
+import { cellsDefaultStyles } from '@core/constants';
+import {
+  tableResize,
+  changeText,
+  changeStyles,
+  // applyStyle,
+} from '@/redux/actions';
 import {
   shouldResize,
   isCell,
   getMatrix,
   getNextCellSelector,
 } from './table.funtions';
-import { tableResize, changeText } from '@/redux/actions';
 
 class Table extends ExcelComponent {
   static className = 'excel_table';
@@ -33,6 +39,9 @@ class Table extends ExcelComponent {
   selectCell(eventName, $cell) {
     this.selection.select($cell);
     this.$emit(eventName, $cell);
+
+    const stylesList = $cell.getStyles(Object.keys(cellsDefaultStyles));
+    this.$dispatch(changeStyles(stylesList));
   }
 
   init() {
@@ -40,7 +49,7 @@ class Table extends ExcelComponent {
     const $firstCell = this.$root.find('[data-cell="0:0"]');
     this.selectCell('Table_select', $firstCell);
 
-    this.$on('Formula_onInput', text => {
+    this.$on('Fosrmula_onInput', text => {
       this.selection.currentCell.text(text);
 
       const id = this.selection.currentCell.cellID();
@@ -48,7 +57,17 @@ class Table extends ExcelComponent {
     });
 
     this.$on('Formula_focusToCell', () => this.selection.currentCell.focus());
-    // this.$subscribe(state => console.log('TableState', state));
+
+    this.$on('Toolbar_applyStyle', styleParams => {
+      this.selection.applyStyle(styleParams);
+
+      // this.$dispatch(
+      //   applyStyle({
+      //     ids: this.selection.cellsGroup.getIDs(),
+      //     styleParams,
+      //   })
+      // );
+    });
   }
 
   async resizeTable(event) {

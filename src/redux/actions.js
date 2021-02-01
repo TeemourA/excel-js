@@ -1,13 +1,23 @@
 import actionTypes from './actionTypes';
 
-const tableResize = data => ({
+const tableResize = payload => ({
   type: actionTypes.TABLE_RESIZE,
-  payload: data,
+  payload,
 });
 
-const changeText = data => ({
+const changeText = payload => ({
   type: actionTypes.CHANGE_TEXT,
-  payload: data,
+  payload,
 });
 
-export { tableResize, changeText };
+const changeStyles = payload => ({
+  type: actionTypes.CHANGE_STYLES,
+  payload,
+});
+
+const applyStyle = payload => ({
+  type: actionTypes.APPLY_STYLE,
+  payload,
+});
+
+export { tableResize, changeText, changeStyles, applyStyle };

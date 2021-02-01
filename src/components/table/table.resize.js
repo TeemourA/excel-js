@@ -44,7 +44,6 @@ const resizeHandler = ($root, event) => {
         $parent.injectStyles({ height: updatedSize });
       }
 
-      console.log(type);
       resolve({
         type,
         id: $parent.dataset[type],

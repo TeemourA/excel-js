@@ -76,6 +76,13 @@ class DOM {
     stylesKeyValue.forEach(([key, value]) => (this.$el.style[key] = value));
   }
 
+  getStyles(styles = []) {
+    return styles.reduce((result, s) => {
+      result[s] = this.$el.style[s];
+      return result;
+    }, {});
+  }
+
   cellID(parse) {
     if (parse) {
       const [column, row] = this.cellID().split(':');
