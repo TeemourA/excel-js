@@ -1,3 +1,6 @@
+const getMethodName = (listenerName, prefix, modify) =>
+  `${prefix}${modify(listenerName)}`;
+
 const capitalize = string => {
   if (typeof string !== 'string') {
     return '';
@@ -18,11 +21,25 @@ const calcDelta = (pageCoords, elementCoords) => pageCoords - elementCoords;
 const calcSize = (elementCoords, delta) => elementCoords + delta;
 const toPixels = dimension => `${dimension}px`;
 
+const isEqual = (prev, next) => {
+  if (typeof prev === 'object' && typeof next === 'object') {
+    return JSON.stringify(prev) === JSON.stringify(next);
+  }
+
+  return prev === next;
+};
+
+const camelToDashCase = str =>
+  str.replace(/([A-Z])/g, g => `-${g[0].toLowerCase()}`);
+
 export {
+  getMethodName,
   capitalize,
   saveInLocalStorage,
   getFromLocalStorage,
   calcDelta,
   calcSize,
   toPixels,
+  isEqual,
+  camelToDashCase,
 };

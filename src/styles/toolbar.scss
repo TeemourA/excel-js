@@ -16,6 +16,6 @@
   background-color: #fff;
 
   & .button {
-    @include button(red);
+    @include button(lightgreen);
   }
 }

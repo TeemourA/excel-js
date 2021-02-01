@@ -1,4 +1,4 @@
-import { capitalize } from './utils';
+import { getMethodName, capitalize } from './utils';
 
 class DOMListener {
   constructor($root, listeners = []) {
@@ -29,8 +29,5 @@ class DOMListener {
     });
   }
 }
-
-const getMethodName = (listenerName, prefix, modify) =>
-  `${prefix}${modify(listenerName)}`;
 
 export default DOMListener;

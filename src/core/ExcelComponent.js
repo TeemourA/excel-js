@@ -5,9 +5,9 @@ class ExcelComponent extends DOMListener {
     super($root, options.listeners);
     this.name = options.name;
     this.emitter = options.emitter;
+    this.subscriptions = options.subscriptions || [];
     this.store = options.store;
     this.unsubscribers = [];
-    this.storeSub = null;
 
     this.prepare();
   }
@@ -31,8 +31,10 @@ class ExcelComponent extends DOMListener {
     this.store.dispatch(action);
   }
 
-  $subscribe(fn) {
-    this.storeSub = this.store.subscribe(fn);
+  onStoreChange() {}
+
+  isWatching(key) {
+    return this.subscriptions.includes(key);
   }
 
   init() {
@@ -42,7 +44,6 @@ class ExcelComponent extends DOMListener {
   destroy() {
     this.removeDOMListeners();
     this.unsubscribers.forEach(unsubscribe => unsubscribe());
-    this.storeSub.unsubscribe();
   }
 }
 

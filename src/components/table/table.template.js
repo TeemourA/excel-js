@@ -1,4 +1,5 @@
-import { toPixels } from '@core/utils';
+import { toPixels, camelToDashCase } from '@core/utils';
+import { cellsDefaultStyles } from '@core/constants';
 
 const charCodes = {
   A: 65,
@@ -20,13 +21,16 @@ const createCell = (state, rowIndex) => (_, columnIndex) => {
   const width = getWidth(state.columns, columnIndex);
   const id = `${columnIndex}:${rowIndex}`;
   const text = state.cells[id] || '';
+  const styles = Object.entries(cellsDefaultStyles)
+    .map(([key, value]) => `${camelToDashCase(key)}: ${value}`)
+    .join('; ');
   return `
     <div
       class="cell"
       contenteditable
       data-column="${columnIndex}"
       data-cell="${columnIndex}:${rowIndex}"
-      style="width: ${width}"
+      style="${styles}; width: ${width}"
     >
       ${text}
     </div>
