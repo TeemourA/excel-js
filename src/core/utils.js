@@ -32,6 +32,23 @@ const isEqual = (prev, next) => {
 const camelToDashCase = str =>
   str.replace(/([A-Z])/g, g => `-${g[0].toLowerCase()}`);
 
+const toInlineStyles = (styles = {}) =>
+  Object.entries(styles)
+    .map(([key, value]) => `${camelToDashCase(key)}: ${value}`)
+    .join('; ');
+
+const debounce = (fn, delay) => {
+  let timeout;
+  return (...args) => {
+    const callback = () => {
+      clearTimeout(timeout);
+      fn(...args);
+    };
+    clearTimeout(timeout);
+    timeout = setTimeout(callback, delay);
+  };
+};
+
 export {
   getMethodName,
   capitalize,
@@ -42,4 +59,6 @@ export {
   toPixels,
   isEqual,
   camelToDashCase,
+  toInlineStyles,
+  debounce,
 };

@@ -20,4 +20,9 @@ const applyStyle = payload => ({
   payload,
 });
 
-export { tableResize, changeText, changeStyles, applyStyle };
+const changeTitle = payload => ({
+  type: actionTypes.CHANGE_TITLE,
+  payload,
+});
+
+export { tableResize, changeText, changeStyles, applyStyle, changeTitle };

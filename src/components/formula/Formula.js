@@ -29,7 +29,7 @@ class Formula extends ExcelComponent {
 
     this.$formula = this.$root.find('[data-type="formula"]');
 
-    this.$on('Table_select', $cell => this.$formula.text($cell.text()));
+    this.$on('Table_select', $cell => this.$formula.text($cell.dataset.value));
   }
 
   onStoreChange({ currentText }) {

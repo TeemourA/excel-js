@@ -35,7 +35,7 @@ class TableSelection {
     this.cellsGroup.forEach($cell => $cell.injectStyles(styles));
   }
 
-  getIDs() {
+  getSelectedCellsIDs() {
     return this.cellsGroup.map($cell => $cell.cellID());
   }
 }
