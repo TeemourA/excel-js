@@ -1,5 +1,6 @@
-import { toPixels, camelToDashCase } from '@core/utils';
+import { toPixels, toInlineStyles } from '@core/utils';
 import { cellsDefaultStyles } from '@core/constants';
+import parse from '@core/parse';
 
 const charCodes = {
   A: 65,
@@ -21,18 +22,20 @@ const createCell = (state, rowIndex) => (_, columnIndex) => {
   const width = getWidth(state.columns, columnIndex);
   const id = `${columnIndex}:${rowIndex}`;
   const text = state.cells[id] || '';
-  const styles = Object.entries(cellsDefaultStyles)
-    .map(([key, value]) => `${camelToDashCase(key)}: ${value}`)
-    .join('; ');
+  const styles = toInlineStyles({
+    ...cellsDefaultStyles,
+    ...state.cellsStyles[id],
+  });
   return `
     <div
-      class="cell"
       contenteditable
+      class="cell"
       data-column="${columnIndex}"
       data-cell="${columnIndex}:${rowIndex}"
+      data-value="${text}"
       style="${styles}; width: ${width}"
     >
-      ${text}
+      ${parse(text)}
     </div>
   `;
 };

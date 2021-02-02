@@ -4,11 +4,12 @@ import createTable from './table.template';
 import resizeHandler from './table.resize';
 import TableSelection from './TableSelection';
 import { cellsDefaultStyles } from '@core/constants';
+import parse from '@core/parse';
 import {
   tableResize,
   changeText,
   changeStyles,
-  // applyStyle,
+  applyStyle,
 } from '@/redux/actions';
 import {
   shouldResize,
@@ -49,8 +50,8 @@ class Table extends ExcelComponent {
     const $firstCell = this.$root.find('[data-cell="0:0"]');
     this.selectCell('Table_select', $firstCell);
 
-    this.$on('Fosrmula_onInput', text => {
-      this.selection.currentCell.text(text);
+    this.$on('Formula_onInput', text => {
+      this.selection.currentCell.attr('data-value', text).text(parse(text));
 
       const id = this.selection.currentCell.cellID();
       this.updateCellsState(id, text);
@@ -61,12 +62,12 @@ class Table extends ExcelComponent {
     this.$on('Toolbar_applyStyle', styleParams => {
       this.selection.applyStyle(styleParams);
 
-      // this.$dispatch(
-      //   applyStyle({
-      //     ids: this.selection.cellsGroup.getIDs(),
-      //     styleParams,
-      //   })
-      // );
+      this.$dispatch(
+        applyStyle({
+          ids: this.selection.getSelectedCellsIDs(),
+          styleParams,
+        })
+      );
     });
   }
 

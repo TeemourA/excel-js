@@ -5,4 +5,6 @@ const cellsDefaultStyles = {
   fontStyle: 'normal',
 };
 
-export { cellsDefaultStyles };
+const defaultTitle = 'Новая таблица';
+
+export { cellsDefaultStyles, defaultTitle };
