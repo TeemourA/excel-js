@@ -1,4 +1,4 @@
-##### Excel with native JavaScript
+### Excel with native JavaScript
 Currently hosted by Firebase: https://gsheets-lite.web.app/
 
 Serverless excel-like app operating with local-storage to store session data.
